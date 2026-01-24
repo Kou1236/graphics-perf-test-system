@@ -31,8 +31,6 @@ graphics-perf-test-system/
 ├── frontend/                   # 表现平面（Web UI）
 │   └── web-ui/
 ├── docs/                       # 系统文档
-│   ├── system-architecture.md
-│   ├── system-implementation.md
 │   └── design-notes/
 ├── scripts/                    # 本地开发辅助脚本
 ├── .gitignore
