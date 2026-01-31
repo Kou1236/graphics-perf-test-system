@@ -7,6 +7,7 @@ import java.time.Instant;
  * - cpuPct / memBytes：进程级
  * - systemCpuPct / systemMemBytes：系统级
  * - gpuUtilPct：GPU 利用率
+ * - gpuMemUsedBytes：GPU 显存占用（字节）
  */
 public record MetricSampleDto(
         Instant ts,
@@ -14,6 +15,7 @@ public record MetricSampleDto(
         Long memBytes,
         Double systemCpuPct,
         Long systemMemBytes,
-        Double gpuUtilPct
+        Double gpuUtilPct,
+        Long gpuMemUsedBytes
 ) {
 }

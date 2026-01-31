@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * 通过 nvidia-smi 命令获取 GPU 利用率
+ * 通过 nvidia-smi 命令获取 GPU 指标：
+ * - utilization.gpu      → gpuUtilPct
+ * - memory.used (MiB)   → gpuMemUsedBytes（字节）
  */
 @Component
 public class NvidiaSmiGpuMetricsProvider implements GpuMetricsProvider {
@@ -18,46 +20,66 @@ public class NvidiaSmiGpuMetricsProvider implements GpuMetricsProvider {
 
     @Override
     public GpuMetricsSnapshot snapshot() {
-        ProcessBuilder builder = new ProcessBuilder(
-                "nvidia-smi",
-                "--query-gpu=utilization.gpu",
-                "--format=csv,noheader,nounits"
-        );
-
+        Process process = null;
         try {
-            Process process = builder.start();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            String[] cmd = new String[]{
+                    "nvidia-smi",
+                    "--query-gpu=utilization.gpu,memory.used",
+                    "--format=csv,noheader,nounits"
+            };
+
+            process = new ProcessBuilder(cmd)
+                    .redirectErrorStream(true)
+                    .start();
+
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+
                 String line = reader.readLine();
-                int exitCode = process.waitFor();
-
-                if (exitCode != 0) {
-                    log.debug("nvidia-smi exited with code {}, skip gpu metrics", exitCode);
-                    return null;
-                }
-
                 if (line == null || line.isBlank()) {
-                    log.debug("nvidia-smi output is empty, skip gpu metrics");
                     return null;
                 }
 
-                String trimmed = line.trim();
-                String numeric = trimmed.replaceAll("[^0-9.]", "");
-                if (numeric.isEmpty()) {
-                    log.debug("nvidia-smi output '{}' has no numeric gpu util", trimmed);
+                // 形如："12, 345"
+                String[] parts = line.split(",");
+                if (parts.length < 2) {
                     return null;
                 }
 
-                double util = Double.parseDouble(numeric);
+                String utilStr = parts[0].trim();
+                String memMiBStr = parts[1].trim();
+
+                Double gpuUtilPct = parseDoubleSafe(utilStr);
+                Long memMiB = parseLongSafe(memMiBStr);
+                Long gpuMemUsedBytes = (memMiB != null ? memMiB * 1024L * 1024L : null);
 
                 GpuMetricsSnapshot snapshot = new GpuMetricsSnapshot();
-                snapshot.setGpuUtilPct(util);
+                snapshot.setGpuUtilPct(gpuUtilPct);
+                snapshot.setGpuMemUsedBytes(gpuMemUsedBytes);
                 return snapshot;
             }
-        } catch (IOException | InterruptedException e) {
-            if (e instanceof InterruptedException) {
-                Thread.currentThread().interrupt();
-            }
+        } catch (IOException e) {
             log.debug("Failed to run nvidia-smi for gpu metrics: {}", e.getMessage());
+            return null;
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
+        }
+    }
+
+    private Double parseDoubleSafe(String s) {
+        try {
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private Long parseLongSafe(String s) {
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException e) {
             return null;
         }
     }

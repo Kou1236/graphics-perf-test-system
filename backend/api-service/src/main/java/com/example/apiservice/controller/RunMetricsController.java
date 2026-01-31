@@ -29,7 +29,8 @@ public class RunMetricsController {
                         e.getMemBytes(),
                         e.getSystemCpuPct(),
                         e.getSystemMemBytes(),
-                        e.getGpuUtilPct()
+                        e.getGpuUtilPct(),
+                        e.getGpuMemUsedBytes()
                 ))
                 .toList();
     }

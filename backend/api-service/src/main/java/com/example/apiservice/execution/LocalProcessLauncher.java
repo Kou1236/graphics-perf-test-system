@@ -21,7 +21,7 @@ import java.util.Map;
  * - 指标包含：
  *   - 进程级：cpuPct / memBytes
  *   - 系统级：systemCpuPct / systemMemBytes
- *   - GPU：gpuUtilPct
+ *   - GPU：gpuUtilPct / gpuMemUsedBytes
  */
 @Component
 public class LocalProcessLauncher implements ProcessLauncher {
@@ -91,7 +91,7 @@ public class LocalProcessLauncher implements ProcessLauncher {
                     // 2. 进程级 CPU / MEM（基于 OSHI）
                     ProcessMetricsSnapshot processSnapshot = processMetricsProvider.snapshotForPid(pid);
 
-                    // 3. GPU 利用率（NVIDIA）
+                    // 3. GPU 指标（NVIDIA）
                     GpuMetricsSnapshot gpuSnapshot = gpuMetricsProvider.snapshot();
 
                     Double cpuPct = null;
@@ -99,6 +99,7 @@ public class LocalProcessLauncher implements ProcessLauncher {
                     Double systemCpuPct = null;
                     Long systemMemBytes = null;
                     Double gpuUtilPct = null;
+                    Long gpuMemUsedBytes = null;
 
                     if (processSnapshot != null) {
                         cpuPct = processSnapshot.getCpuPct();
@@ -112,6 +113,7 @@ public class LocalProcessLauncher implements ProcessLauncher {
 
                     if (gpuSnapshot != null) {
                         gpuUtilPct = gpuSnapshot.getGpuUtilPct();
+                        gpuMemUsedBytes = gpuSnapshot.getGpuMemUsedBytes();
                     }
 
                     // 如果进程级指标为空，则退回系统级
@@ -130,6 +132,7 @@ public class LocalProcessLauncher implements ProcessLauncher {
                     sample.setSystemCpuPct(systemCpuPct);
                     sample.setSystemMemBytes(systemMemBytes);
                     sample.setGpuUtilPct(gpuUtilPct);
+                    sample.setGpuMemUsedBytes(gpuMemUsedBytes);
                     // 不再写入 extraJson，保持为 null
 
                     metricSampleRepository.save(sample);
@@ -160,11 +163,8 @@ public class LocalProcessLauncher implements ProcessLauncher {
             if (exitCode != 0) {
                 result.setErrorMessage("Process exited with code " + exitCode);
             }
-
-            log.info("Process for run {} finished. pid={}, exitCode={}", runId, pid, exitCode);
         } catch (IOException e) {
             Instant now = Instant.now();
-            result.setStartAt(now);
             result.setEndAt(now);
             result.setExitCode(-1);
             result.setErrorMessage("Failed to start process: " + e.getMessage());

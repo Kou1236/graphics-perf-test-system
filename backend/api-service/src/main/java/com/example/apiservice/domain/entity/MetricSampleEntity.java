@@ -30,13 +30,13 @@ public class MetricSampleEntity {
     private Long memBytes;
 
     /**
-     * 系统整体 CPU 使用率（百分比 0-100）
+     * 系统 CPU 使用率（百分比 0-100）
      */
     @Column(name = "system_cpu_pct")
     private Double systemCpuPct;
 
     /**
-     * 系统整体内存占用（字节）
+     * 系统内存占用（字节）
      */
     @Column(name = "system_mem_bytes")
     private Long systemMemBytes;
@@ -46,6 +46,12 @@ public class MetricSampleEntity {
      */
     @Column(name = "gpu_util_pct")
     private Double gpuUtilPct;
+
+    /**
+     * GPU 显存占用（字节），通过 nvidia-smi 的 memory.used 转换
+     */
+    @Column(name = "gpu_mem_used_bytes")
+    private Long gpuMemUsedBytes;
 
     /**
      * 兼容历史的扩展 JSON 字段（当前采集逻辑不再写入）
@@ -113,6 +119,14 @@ public class MetricSampleEntity {
 
     public void setGpuUtilPct(Double gpuUtilPct) {
         this.gpuUtilPct = gpuUtilPct;
+    }
+
+    public Long getGpuMemUsedBytes() {
+        return gpuMemUsedBytes;
+    }
+
+    public void setGpuMemUsedBytes(Long gpuMemUsedBytes) {
+        this.gpuMemUsedBytes = gpuMemUsedBytes;
     }
 
     public String getExtraJson() {
