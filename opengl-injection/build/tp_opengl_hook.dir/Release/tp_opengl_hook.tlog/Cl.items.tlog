@@ -1,0 +1,7 @@
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\src\DllMain.cpp;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\DllMain.obj
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\src\SwapHook.cpp;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\SwapHook.obj
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\src\RenderEventWriter.cpp;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\RenderEventWriter.obj
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\minhook\src\buffer.c;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\buffer.obj
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\minhook\src\hook.c;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\hook.obj
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\minhook\src\trampoline.c;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\trampoline.obj
+E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\minhook\src\hde\hde64.c;E:\biyelunwen\Code\graphics-perf-test-system\opengl-injection\build\tp_opengl_hook.dir\Release\hde64.obj

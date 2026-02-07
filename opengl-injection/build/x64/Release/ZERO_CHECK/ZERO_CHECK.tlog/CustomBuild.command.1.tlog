@@ -1,0 +1,10 @@
+^E:\BIYELUNWEN\CODE\GRAPHICS-PERF-TEST-SYSTEM\OPENGL-INJECTION\BUILD\CMAKEFILES\58A61E55ED90D9FF1378C5BF5E217E95\GENERATE.STAMP.RULE
+setlocal
+E:\visualstudio\1\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe -SE:/biyelunwen/Code/graphics-perf-test-system/opengl-injection -BE:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/opengl_injection.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

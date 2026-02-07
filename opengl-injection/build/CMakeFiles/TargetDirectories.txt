@@ -1,0 +1,4 @@
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/tp_opengl_hook.dir
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/injector.dir
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/ALL_BUILD.dir
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/ZERO_CHECK.dir

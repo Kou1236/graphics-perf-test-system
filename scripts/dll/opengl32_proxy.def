@@ -1,0 +1,25 @@
+LIBRARY opengl32
+
+EXPORTS
+    glBegin          = opengl32_org.glBegin
+    glClear          = opengl32_org.glClear
+    glClearColor     = opengl32_org.glClearColor
+    glColor3f        = opengl32_org.glColor3f
+    glDisable        = opengl32_org.glDisable
+    glEnd            = opengl32_org.glEnd
+    glGetString      = opengl32_org.glGetString
+    glLoadIdentity   = opengl32_org.glLoadIdentity
+    glMatrixMode     = opengl32_org.glMatrixMode
+    glOrtho          = opengl32_org.glOrtho
+    glPopMatrix      = opengl32_org.glPopMatrix
+    glPushMatrix     = opengl32_org.glPushMatrix
+    glRotatef        = opengl32_org.glRotatef
+    glVertex2f       = opengl32_org.glVertex2f
+    glViewport       = opengl32_org.glViewport
+
+    wglCreateContext = opengl32_org.wglCreateContext
+    wglDeleteContext = opengl32_org.wglDeleteContext
+    wglGetProcAddress = opengl32_org.wglGetProcAddress
+    wglMakeCurrent   = opengl32_org.wglMakeCurrent
+
+    ; 注意：这里故意不写 wglSwapBuffers 的转发，让它用我们 C++ 里实现的版本

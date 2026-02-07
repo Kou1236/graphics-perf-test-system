@@ -1,0 +1,25 @@
+# CMake generation dependency list for this directory.
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/CMakeLists.txt
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/3.29.5-msvc4/CMakeCCompiler.cmake
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/3.29.5-msvc4/CMakeCXXCompiler.cmake
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/3.29.5-msvc4/CMakeRCCompiler.cmake
+E:/biyelunwen/Code/graphics-perf-test-system/opengl-injection/build/CMakeFiles/3.29.5-msvc4/CMakeSystem.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeCInformation.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeCXXInformation.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeGenericSystem.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeLanguageInformation.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeRCInformation.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Compiler/MSVC-C.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Compiler/MSVC-CXX.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Compiler/MSVC.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Platform/Windows-Initialize.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Platform/Windows-MSVC-C.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Platform/Windows-MSVC-CXX.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Platform/Windows-MSVC.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Platform/Windows.cmake
+E:/visualstudio/1/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/Platform/WindowsPaths.cmake
