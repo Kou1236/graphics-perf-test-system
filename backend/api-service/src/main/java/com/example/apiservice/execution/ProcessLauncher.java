@@ -13,4 +13,14 @@ public interface ProcessLauncher {
      * @param sampleIntervalMs 采样间隔（毫秒）
      */
     RunExecutionResult launchAndWait(ProcessStartRequest request, Long runId, long sampleIntervalMs);
+
+    /**
+     * 可选 RenderProbe（用于注入）
+     */
+    default RunExecutionResult launchAndWait(ProcessStartRequest request,
+                                             Long runId,
+                                             long sampleIntervalMs,
+                                             com.example.apiservice.execution.renderprobe.RenderProbePlan renderProbePlan) {
+        return launchAndWait(request, runId, sampleIntervalMs);
+    }
 }

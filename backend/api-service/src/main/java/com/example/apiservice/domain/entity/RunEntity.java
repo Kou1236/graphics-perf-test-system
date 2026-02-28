@@ -36,6 +36,18 @@ public class RunEntity {
     @Column(nullable = false)
     private Instant createdAt;
 
+    @Column(name = "artifact_dir", length = 1024)
+    private String artifactDir;
+
+    @Column(name = "render_events_path", length = 1024)
+    private String renderEventsPath;
+
+    @Column(name = "render_probe_status", length = 32)
+    private String renderProbeStatus;
+
+    @Column(name = "render_probe_error", length = 2048)
+    private String renderProbeError;
+
     @PrePersist
     public void onCreate() {
         createdAt = Instant.now();

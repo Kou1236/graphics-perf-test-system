@@ -6,11 +6,16 @@ import com.example.apiservice.domain.entity.SceneEntity;
 import com.example.apiservice.domain.repository.ApplicationRepository;
 import com.example.apiservice.domain.repository.RunRepository;
 import com.example.apiservice.domain.repository.SceneRepository;
+import com.example.apiservice.execution.renderprobe.OpenGlRenderProbeConfig;
+import com.example.apiservice.execution.renderprobe.RenderProbePlan;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,20 +25,24 @@ import java.util.List;
 public class RunOrchestratorImpl implements RunOrchestrator {
 
     private static final Logger log = LoggerFactory.getLogger(RunOrchestratorImpl.class);
+    private static final String RUNS_BASE_DIR = "./data/runs";
 
     private final RunRepository runRepository;
     private final SceneRepository sceneRepository;
     private final ApplicationRepository applicationRepository;
     private final ProcessLauncher processLauncher;
+    private final ObjectMapper objectMapper;
 
     public RunOrchestratorImpl(RunRepository runRepository,
                                SceneRepository sceneRepository,
                                ApplicationRepository applicationRepository,
-                               ProcessLauncher processLauncher) {
+                               ProcessLauncher processLauncher,
+                               ObjectMapper objectMapper) {
         this.runRepository = runRepository;
         this.sceneRepository = sceneRepository;
         this.applicationRepository = applicationRepository;
         this.processLauncher = processLauncher;
+        this.objectMapper = objectMapper;
     }
 
     @Async
@@ -56,6 +65,21 @@ public class RunOrchestratorImpl implements RunOrchestrator {
             ApplicationEntity app = applicationRepository.findById(scene.getAppId())
                     .orElseThrow(() -> new IllegalArgumentException("Application not found: " + scene.getAppId()));
 
+            Path artifactDir = Path.of(RUNS_BASE_DIR, Long.toString(runId));
+            Files.createDirectories(artifactDir);
+            String renderEventsPath = artifactDir.resolve("render_events.jsonl").toAbsolutePath().toString();
+
+            run.setArtifactDir(artifactDir.toAbsolutePath().toString());
+            run.setRenderEventsPath(renderEventsPath);
+
+            RenderProbePlan renderProbePlan = buildRenderProbePlan(scene, renderEventsPath);
+            if (renderProbePlan != null && renderProbePlan.isEnabled()) {
+                run.setRenderProbeStatus("ENABLED");
+                run.setRenderProbeError(null);
+            } else {
+                run.setRenderProbeStatus("DISABLED");
+            }
+
             ProcessStartRequest request = buildProcessStartRequest(app);
 
             run.setStatus("Running");
@@ -65,7 +89,8 @@ public class RunOrchestratorImpl implements RunOrchestrator {
             RunExecutionResult result = processLauncher.launchAndWait(
                     request,
                     runId,
-                    scene.getSampleIntervalMs()
+                    scene.getSampleIntervalMs(),
+                    renderProbePlan
             );
 
             if (result.getPid() != null) {
@@ -102,6 +127,34 @@ public class RunOrchestratorImpl implements RunOrchestrator {
                 log.error("Failed to persist failed status for run {}", runId, ex);
             }
         }
+    }
+
+    private RenderProbePlan buildRenderProbePlan(SceneEntity scene, String renderEventsPath) {
+        if (scene == null) {
+            return null;
+        }
+        String json = scene.getRenderProbeConfigJson();
+        if (json == null || json.isBlank()) {
+            return null;
+        }
+
+        OpenGlRenderProbeConfig cfg;
+        try {
+            cfg = objectMapper.readValue(json, OpenGlRenderProbeConfig.class);
+        } catch (Exception e) {
+            return null;
+        }
+
+        if (!cfg.isEnabled()) {
+            return null;
+        }
+
+        RenderProbePlan plan = new RenderProbePlan();
+        plan.setEnabled(true);
+        plan.setInjectorExePath(cfg.getInjectorExePath());
+        plan.setHookDllPath(cfg.getHookDllPath());
+        plan.setRenderEventsPath(renderEventsPath);
+        return plan;
     }
 
     private ProcessStartRequest buildProcessStartRequest(ApplicationEntity app) {

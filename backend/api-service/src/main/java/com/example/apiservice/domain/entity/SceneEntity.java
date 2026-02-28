@@ -31,6 +31,9 @@ public class SceneEntity {
     @Column(nullable = false, length = 1024)
     private String metricSetJson;
 
+    @Column(name = "render_probe_config_json", columnDefinition = "TEXT")
+    private String renderProbeConfigJson;
+
     @Column(nullable = false)
     private Instant createdAt;
 

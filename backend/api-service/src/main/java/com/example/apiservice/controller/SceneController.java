@@ -30,4 +30,11 @@ public class SceneController {
     public SceneEntity getById(@PathVariable Long id) {
         return sceneService.getById(id);
     }
+
+    @PostMapping("/{id}/render-probe-config")
+    public SceneEntity updateRenderProbeConfig(@PathVariable Long id, @RequestBody String renderProbeConfigJson) {
+        SceneEntity scene = sceneService.getById(id);
+        scene.setRenderProbeConfigJson(renderProbeConfigJson);
+        return sceneService.create(scene);
+    }
 }
